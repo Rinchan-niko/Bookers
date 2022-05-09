@@ -5,8 +5,9 @@ class BooksController < ApplicationController
       flash[:notice] = 'Book was successfully created.'
       redirect_to book_path(book.id)
     else
-      flash[:alert] = '書けや'
-      redirect_to "/books"
+      @books = Book.all
+      @book = book
+      render :index
     end
   end
 
@@ -29,14 +30,15 @@ class BooksController < ApplicationController
       flash[:notice] = 'Book was successfully updated.'
       redirect_to book_path(book.id)
     else
-      flash[:alert] = '変えろや'
-      redirect_to edit_book_path(book.id)
+      @book = book
+      render :edit
     end
   end
 
   def destroy
     book = Book.find(params[:id])
     book.destroy
+    flash[:notice] = 'Book was successfully destroyed.'
     redirect_to '/books'
   end
 
